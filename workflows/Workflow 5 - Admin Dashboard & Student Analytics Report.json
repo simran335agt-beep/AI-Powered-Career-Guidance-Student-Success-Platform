@@ -1,0 +1,143 @@
+{
+  "name": "Workflow 5 - Admin Dashboard & Student Analytics Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1a6d08df-1396-4a48-a0a3-61c333d0ae10",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1n-RgJY2zKaciINmKlgmvYyKqwKgIO_Wff8kF-XaX2Wg",
+          "mode": "list",
+          "cachedResultName": "Career Guidance Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n-RgJY2zKaciINmKlgmvYyKqwKgIO_Wff8kF-XaX2Wg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n-RgJY2zKaciINmKlgmvYyKqwKgIO_Wff8kF-XaX2Wg/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b2ee966d-cdb7-4b15-8343-458a5eaf8b83",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "93NN1kIvdfdvAhil",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const students = $input.all();\n\nconst totalStudents = students.length;\n\nconst aiStudents = students.filter(\n    s => s.json.Interests === \"AI\"\n).length;\n\nconst completed = students.filter(\n    s => s.json.Status === \"Completed\"\n).length;\n\nconst cgpaAbove8 = students.filter(\n    s => Number(s.json.CGPA) >= 8\n).length;\n\nreturn [{\n    json: {\n        totalStudents,\n        aiStudents,\n        completed,\n        cgpaAbove8,\n        generatedAt: new Date().toLocaleString()\n    }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "43d5f0d1-2124-4f89-901d-afaa58de4ead",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Get row(s) in sheet').item.json.Email }}",
+        "subject": "Weekly Student Career Guidance Report",
+        "message": "=<h2>Career Guidance Weekly Report</h2>  <p><b>Total Students:</b> {{$json.totalStudents}}</p>  <p><b>Students Interested in AI:</b> {{$json.aiStudents}}</p>  <p><b>Students with CGPA ≥ 8:</b> {{$json.cgpaAbove8}}</p>  <p><b>Completed Career Guidance:</b> {{$json.completed}}</p>  <p><b>Generated At:</b> {{$json.generatedAt}}</p>  <p>Generated automatically by n8n.</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "4a55cd26-9bdb-4db1-b5de-369a32c27019",
+      "name": "Send a message",
+      "webhookId": "7d2b99e9-2f62-41a0-adb4-b1a4e67cce16",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "bE2yO3RG2P9bwViW",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "7b9f1031-4744-46dc-a432-2cd6530412d7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6340090babda1a230c6d8b7eb520af0c53991bf20fd628a01d0c3a3df94334ca"
+  },
+  "nodeGroups": [],
+  "id": "15NCWhkvocfLeNpc",
+  "tags": []
+}

@@ -1,0 +1,385 @@
+{
+  "name": "Career Guidance - Student Registration",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "f3c6f301-e250-4937-94f0-371e8bde0d5f",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1HO_2Pplv1nG00b_NNujb9oDGlAOotR3EVuptxv3Zk8k",
+          "mode": "list",
+          "cachedResultName": "Career Guidance Responses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HO_2Pplv1nG00b_NNujb9oDGlAOotR3EVuptxv3Zk8k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 756364734,
+          "mode": "list",
+          "cachedResultName": "Form Responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HO_2Pplv1nG00b_NNujb9oDGlAOotR3EVuptxv3Zk8k/edit#gid=756364734"
+        },
+        "options": {}
+      },
+      "id": "00f0663e-6289-4037-aaea-0406de668fdc",
+      "name": "Get row(s) in sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "93NN1kIvdfdvAhil",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1n-RgJY2zKaciINmKlgmvYyKqwKgIO_Wff8kF-XaX2Wg",
+          "mode": "list",
+          "cachedResultName": "Career Guidance Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n-RgJY2zKaciINmKlgmvYyKqwKgIO_Wff8kF-XaX2Wg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n-RgJY2zKaciINmKlgmvYyKqwKgIO_Wff8kF-XaX2Wg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Student ID": "={{ $json.output[0].id }}",
+            "Name": "={{ $('Get row(s) in sheet').item.json['  Student Name '] }}",
+            "Email": "={{ $('Get row(s) in sheet').item.json['  Email Address  '] }}",
+            "Branch": "={{ $('Get row(s) in sheet').item.json['  Branch  '] }}",
+            "Year": "={{ $('Get row(s) in sheet').item.json['  Current Year  '] }}",
+            "CGPA": "={{ $('Get row(s) in sheet').item.json['  Current CGPA  '] }}",
+            "Skills": "={{ $('Get row(s) in sheet').item.json['  Programming Skills  '] }}",
+            "Interests": "={{ $('Get row(s) in sheet').item.json['  Interested Domain  '] }}",
+            "Career Goal": "={{ $('Get row(s) in sheet').item.json['  Career Goal  '] }}",
+            "Certifications": "={{ $('Get row(s) in sheet').item.json['  Certifications  '] }}",
+            "Resume Link": "={{ $('Get row(s) in sheet').item.json['  Resume Link  '] }}",
+            "AI Recommendation": "Output from the OpenAI node",
+            "Status": "Active"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Student ID",
+              "displayName": "Student ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Branch",
+              "displayName": "Branch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Year",
+              "displayName": "Year",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CGPA",
+              "displayName": "CGPA",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Skills",
+              "displayName": "Skills",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Interests",
+              "displayName": "Interests",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Career Goal",
+              "displayName": "Career Goal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Certifications",
+              "displayName": "Certifications",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Resume Link",
+              "displayName": "Resume Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "AI Recommendation",
+              "displayName": "AI Recommendation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Skill Gap",
+              "displayName": "Skill Gap",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Learning Roadmap",
+              "displayName": "Learning Roadmap",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Internship Recommendation",
+              "displayName": "Internship Recommendation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Updated",
+              "displayName": "Last Updated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        784,
+        0
+      ],
+      "id": "82289470-aa06-4bf7-b10f-784a8160ac4d",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "93NN1kIvdfdvAhil",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Your AI Career Guidance Report",
+        "message": "=Hello {{ $json.Name }} ,\n\nThank you for completing the Career Guidance Form.\n\nYour details have been received successfully.\n\nBranch: {{$json[\"Branch\"]}}\nYear: {{ $json.Year }}\nCGPA: {{ $json.CGPA }} \n\nWe will send your AI Career Recommendation soon.\n\nThank you,\nCareer Guidance Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        992,
+        0
+      ],
+      "id": "9313a5b1-01fc-43e1-a6b0-a1fb2dd820ae",
+      "name": "Send a message",
+      "webhookId": "1a39caf3-0852-412d-a439-53a65adaca0d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "bE2yO3RG2P9bwViW",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an AI Career Counselor.\n\nStudent Name:\n{{ $json[\"Student Name\"] }}\n\nBranch:\n{{ $json[\"Branch\"] }}\n\nYear:\n{{ $json[\"Year\"] }}\n\nCGPA:\n{{ $json[\"CGPA\"] }}\n\nSkills:\n{{ $json[\"Skills\"] }}\n\nCareer Goal:\n{{ $json[\"Career Goal\"] }}\n\nGive:\n\n1. Best Career Recommendation\n\n2. Skill Gap\n\n3. Learning Roadmap\n\n4. Best Internship Suggestions\n\nReturn in simple text."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        0
+      ],
+      "id": "665eea57-0ced-4877-8c0b-a5dde797db0f",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "b15AgMcelUnZSpSv",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bee6362d-4334-46f3-808c-91ae5d3ddb83",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6340090babda1a230c6d8b7eb520af0c53991bf20fd628a01d0c3a3df94334ca"
+  },
+  "nodeGroups": [],
+  "id": "UZb56VToizmKM47z",
+  "tags": []
+}
